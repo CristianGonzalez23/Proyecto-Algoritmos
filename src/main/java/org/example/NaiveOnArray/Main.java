@@ -1,13 +1,14 @@
 package org.example.NaiveOnArray;
 
 import org.example.ChartGenerator;
+import org.example.GenerarMatrices.GeneradorMatrices;
 import org.example.GenerarMatrices.LeerMatriz;
 import org.example.PerformanceLogger;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 /**
- * La clase Main contiene el método principal que se ejecuta al iniciar el programa.
+
  * Esta clase se encarga de generar matrices aleatorias de diferentes tamaños, multiplicarlas
  * utilizando el algoritmo NaiveOnArray, registrar el rendimiento y generar un gráfico de barras
  * con los tiempos de ejecución.
@@ -18,9 +19,9 @@ public class Main {
      * @param args los argumentos de la línea de comandos
      */
     public static void main(String[] args) throws FileNotFoundException {
-      //  GeneradorMatrices.generateMatrizToFile(1000, "matrix1000(2).txt");
-        int[][] a1 = LeerMatriz.loadMatrixFromFile("matrix1000.txt");
-        int[][] b1 = LeerMatriz.loadMatrixFromFile("matrix1000(2).txt");
+        GeneradorMatrices.generateMatrizToFile(30, "matriz30.txt");
+        int[][] a1 = LeerMatriz.loadMatrixFromFile("matriz1000.txt");
+        int[][] b1 = LeerMatriz.loadMatrixFromFile("matriz1000(2).txt");
 
         long start1 = System.currentTimeMillis();
         int[][] result1 = NaiveOnArray.multiply(a1, b1);
@@ -29,8 +30,8 @@ public class Main {
         long executionTime1 = end1 - start1;
         PerformanceLogger.logPerformance("NaiveOnArray1", result1.length, executionTime1);
 
-        int[][] a2 = LeerMatriz.loadMatrixFromFile("matrix100.txt");
-        int[][] b2 = LeerMatriz.loadMatrixFromFile("matrix100(2).txt");
+        int[][] a2 = LeerMatriz.loadMatrixFromFile("matriz100.txt");
+        int[][] b2 = LeerMatriz.loadMatrixFromFile("matriz100(2).txt");
 
         long start2 = System.currentTimeMillis();
         int[][] result2 = NaiveOnArray.multiply(a2, b2);
