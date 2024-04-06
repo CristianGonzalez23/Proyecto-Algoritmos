@@ -23,7 +23,7 @@ public class ChartGenerator {
      */
     public static void generateBarChart(List<String> categories, List<Long> values, String chartTitle, String xAxisTitle, String yAxisTitle) {
         // Crea un nuevo gráfico de barras
-        CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title(chartTitle).xAxisTitle(xAxisTitle).yAxisTitle(yAxisTitle).build();
+        CategoryChart chart = new CategoryChartBuilder().width(1280).height(720).title(chartTitle).xAxisTitle(xAxisTitle).yAxisTitle(yAxisTitle).build();
 
         // Configura el estilo del gráfico
         chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
@@ -35,7 +35,7 @@ public class ChartGenerator {
 
         // Intenta guardar el gráfico como una imagen PNG
         try {
-            BitmapEncoder.saveBitmap(chart, "./Performance_Chart", BitmapEncoder.BitmapFormat.PNG);
+            BitmapEncoder.saveBitmap(chart, "./Grafico_NaiveOnArray", BitmapEncoder.BitmapFormat.PNG);
         } catch (IOException e) {
             // Imprime la traza de pila para cualquier IOException
             e.printStackTrace();

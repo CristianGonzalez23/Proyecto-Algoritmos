@@ -1,53 +1,44 @@
 package org.example.NaiveOnArray;
 
 import org.example.ChartGenerator;
-import org.example.GenerarMatrices.GeneradorMatrices;
 import org.example.GenerarMatrices.LeerMatriz;
 import org.example.PerformanceLogger;
+
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-/**
-
- * Esta clase se encarga de generar matrices aleatorias de diferentes tamaños, multiplicarlas
- * utilizando el algoritmo NaiveOnArray, registrar el rendimiento y generar un gráfico de barras
- * con los tiempos de ejecución.
- */
 public class Main {
-    /**
-     * El método principal que se ejecuta al iniciar el programa.
-     * @param args los argumentos de la línea de comandos
-     */
     public static void main(String[] args) throws FileNotFoundException {
-        GeneradorMatrices.generateMatrizToFile(30, "matriz30.txt");
-        int[][] a1 = LeerMatriz.loadMatrixFromFile("matriz1000.txt");
-        int[][] b1 = LeerMatriz.loadMatrixFromFile("matriz1000(2).txt");
+        // Lista de nombres de archivos de matrices
+        List<String> matrixFileNames = Arrays.asList("matriz6.txt", "matriz6(2).txt","matriz30.txt","matriz30(2).txt","matriz10.txt","matriz10(2).txt","matriz100.txt","matriz100(2).txt","matriz1000.txt","matriz1000(2).txt");
 
-        long start1 = System.currentTimeMillis();
-        int[][] result1 = NaiveOnArray.multiply(a1, b1);
-        long end1 = System.currentTimeMillis();
+        List<String> categories = new ArrayList<>();
+        List<Long> executionTimes = new ArrayList<>();
 
-        long executionTime1 = end1 - start1;
-        PerformanceLogger.logPerformance("NaiveOnArray1", result1.length, executionTime1);
+        for (int i = 0; i < matrixFileNames.size(); i += 2) {
+            int[][] a = LeerMatriz.loadMatrixFromFile(matrixFileNames.get(i));
+            int[][] b = LeerMatriz.loadMatrixFromFile(matrixFileNames.get(i + 1));
 
-        int[][] a2 = LeerMatriz.loadMatrixFromFile("matriz100.txt");
-        int[][] b2 = LeerMatriz.loadMatrixFromFile("matriz100(2).txt");
+            long start = System.currentTimeMillis();
+            int[][] result = NaiveOnArray.multiply(a, b);
+            long end = System.currentTimeMillis();
 
-        long start2 = System.currentTimeMillis();
-        int[][] result2 = NaiveOnArray.multiply(a2, b2);
-        long end2 = System.currentTimeMillis();
+            long executionTime = end - start;
+            PerformanceLogger.logPerformance("NaiveOnArray" + (i / 2 + 1), result.length, executionTime);
 
-        long executionTime2 = end2 - start2;
-        PerformanceLogger.logPerformance("NaiveOnArray2", result2.length, executionTime2);
+            categories.add("NaiveOnArray" + (i / 2 + 1) + " (Matrix Size: " + a.length + ")");
+            executionTimes.add(executionTime);
+        }
 
-        // Genera el gráfico de barras con los tiempos de ejecución de ambos algoritmos
+        // Genera el gráfico de barras con los tiempos de ejecución de todos los algoritmos
         ChartGenerator.generateBarChart(
-                Arrays.asList("NaiveOnArray1", "NaiveOnArray2"),
-                Arrays.asList(executionTime1, executionTime2),
+                categories,
+                executionTimes,
                 "Performance of NaiveOnArray",
                 "Algorithm",
-                "Execution time (milliseconds)"
+                "Execution time (nano seconds)"
         );
     }
-
 }
