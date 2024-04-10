@@ -30,6 +30,9 @@ public class ChartGenerator {
         chart.getStyler().setHasAnnotations(true);
         chart.getStyler().setStacked(true);
 
+        // Ajusta el tamaño de las barras
+        chart.getStyler().setAvailableSpaceFill(0.5); // Ajusta este valor según tus necesidades
+
         // Añade la serie de datos al gráfico
         chart.addSeries("Performance", categories, values);
 
