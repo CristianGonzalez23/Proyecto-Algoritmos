@@ -38,7 +38,7 @@ public class ChartGenerator {
 
         // Intenta guardar el gráfico como una imagen PNG
         try {
-            BitmapEncoder.saveBitmap(chart, "./Grafico_NaiveOnArray", BitmapEncoder.BitmapFormat.PNG);
+            BitmapEncoder.saveBitmap(chart, "./Grafico", BitmapEncoder.BitmapFormat.PNG);
         } catch (IOException e) {
             // Imprime la traza de pila para cualquier IOException
             e.printStackTrace();

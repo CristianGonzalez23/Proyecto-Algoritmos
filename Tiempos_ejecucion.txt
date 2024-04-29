@@ -45,3 +45,9 @@ NaiveOnArray, 6, 1
 NaiveOnArray, 6, 1
 NaiveOnArray, 6, 2
 NaiveOnArray, 6, 1
+WinogradScaled, 1000, 4631
+WinogradScaled, 1000, 4739
+WinogradOriginal, 1000, 6503
+WinogradScaled, 1000, 6054
+WinogradScaled , 1000, 6416
+WinogradScaled , 1000, 5992
