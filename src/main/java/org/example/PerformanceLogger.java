@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public class PerformanceLogger {
     // Nombre del archivo donde se escribirán los datos de rendimiento
-    private static final String FILE_NAME = "Tiempos_ejecucion_NaiveOnArray.txt";
+    private static final String FILE_NAME = "Tiempos_ejecucion.txt";
 
     /**
      * Registra el rendimiento de un algoritmo.
