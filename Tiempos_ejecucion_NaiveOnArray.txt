@@ -37,3 +37,11 @@ NaiveOnArray4, 100, 7
 NaiveOnArray5, 1000, 4618
 NaivLoopUnrollingTwo, 100, 14
 NaiveOnArray, 6, 1
+NaivLoopUnrollingFour, 100, 13
+NaiveOnArray, 6, 8
+NaiveOnArray, 6, 8
+NaiveOnArray, 6, 1
+NaiveOnArray, 6, 1
+NaiveOnArray, 6, 1
+NaiveOnArray, 6, 2
+NaiveOnArray, 6, 1

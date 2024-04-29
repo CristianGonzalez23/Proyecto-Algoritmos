@@ -7,19 +7,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LeerMatriz {
-    public static int[][] loadMatrixFromFile(String fileName) throws FileNotFoundException {
-        List<int[]> matrix = new ArrayList<>();
+    public static double[][] loadMatrixFromFile(String fileName) throws FileNotFoundException {
+        List<double[]> matrix = new ArrayList<>();
         Scanner scanner = new Scanner(new File(fileName));
 
         while (scanner.hasNextLine()) {
             String[] line = scanner.nextLine().split(", ");
-            int[] row = new int[line.length];
+            double[] row = new double[line.length]; // Fixed line
             for (int i = 0; i < line.length; i++) {
                 row[i] = Integer.parseInt(line[i]);
             }
             matrix.add(row);
         }
 
-        return matrix.toArray(new int[0][]);
+        return matrix.toArray(new double[0][]);
     }
 }

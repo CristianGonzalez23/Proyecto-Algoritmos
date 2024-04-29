@@ -1,9 +1,9 @@
 package org.example.NaivLoopUnrollingFour;
 
 public class NaivLoopUnrollingFour {
-    public static int[][] multiply(int[][] a, int[][] b) {
+    public static double[][] multiply(double[][] a, double[][] b) {
         int size = a.length;
-        int[][] result = new int[size][size];
+        double[][] result = new double[size][size]; // Fixed line
         for (int i = 0; i < size; i += 4) {
             for (int j = 0; j < size; j += 4) {
                 for (int k = 0; k < size; k += 4) {
