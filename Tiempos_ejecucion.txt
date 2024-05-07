@@ -51,3 +51,4 @@ WinogradOriginal, 1000, 6503
 WinogradScaled, 1000, 6054
 WinogradScaled , 1000, 6416
 WinogradScaled , 1000, 5992
+WinogradScaled , 1024, 285187

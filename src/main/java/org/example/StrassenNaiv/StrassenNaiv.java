@@ -3,34 +3,14 @@ package org.example.StrassenNaiv;
 import java.io.*;
 import java.util.*;
 
-class StrassenNaiv{
+public class StrassenNaiv{
 
-static int ROW_1 = 4,COL_1 = 4, ROW_2 = 4, COL_2 = 4;
 
-public static void printMat(int[][] a, int r, int c){
-	for(int i=0;i<r;i++){
-	for(int j=0;j<c;j++){
-		System.out.print(a[i][j]+" ");
-	}
-	System.out.println("");
-	}
-	System.out.println("");
-}
 
-public static void print(String display, int[][] matrix,int start_row, int start_column, int end_row,int end_column)
-{
-	System.out.println(display + " =>\n");
-	for (int i = start_row; i <= end_row; i++) {
-	for (int j = start_column; j <= end_column; j++) {
-		
-		System.out.print(matrix[i][j]+" ");
-	}
-	System.out.println("");
-	}
-	System.out.println("");
-}
 
-public static void add_matrix(int[][] matrix_A,int[][] matrix_B,int[][] matrix_C, int split_index)
+
+
+public static void add_matrix(double[][] matrix_A,double[][] matrix_B,double[][] matrix_C, int split_index)
 {
 	for (int i = 0; i < split_index; i++){
 	for (int j = 0; j < split_index; j++){
@@ -39,7 +19,7 @@ public static void add_matrix(int[][] matrix_A,int[][] matrix_B,int[][] matrix_C
 	}
 }
 
-public static void initWithZeros(int a[][], int r, int c){
+public static void initWithZeros(double a[][], int r, int c){
 	for(int i=0;i<r;i++){
 	for(int j=0;j<c;j++){
 		a[i][j]=0;
@@ -47,7 +27,7 @@ public static void initWithZeros(int a[][], int r, int c){
 	}
 }
 
-public static int[][] multiply_matrix(int[][] matrix_A,int[][] matrix_B)
+public static double[][] multiply_matrix(double[][] matrix_A,double[][] matrix_B)
 {
 	int col_1 = matrix_A[0].length;
 	int row_1 = matrix_A.length;
@@ -56,14 +36,14 @@ public static int[][] multiply_matrix(int[][] matrix_A,int[][] matrix_B)
 
 	if (col_1 != row_2) {
 	System.out.println("\nError:El numero de las matrices tanto en filas como en columnas debe coincidir \n");
-	int temp[][] = new int[1][1];
+	double temp[][] = new double[1][1];
 	temp[0][0]=0;
 	return temp;
 	}
 
 	int[] result_matrix_row = new int[col_2];
 	Arrays.fill(result_matrix_row,0);
-	int[][] result_matrix = new int[row_1][col_2];
+	double[][] result_matrix = new double[row_1][col_2];
 	initWithZeros(result_matrix,row_1,col_2);
 
 	if (col_1 == 1){
@@ -74,23 +54,23 @@ public static int[][] multiply_matrix(int[][] matrix_A,int[][] matrix_B)
 	int[] row_vector = new int[split_index];
 	Arrays.fill(row_vector,0);
 
-	int[][] result_matrix_00 = new int[split_index][split_index];
-	int[][] result_matrix_01 = new int[split_index][split_index];
-	int[][] result_matrix_10 = new int[split_index][split_index];
-	int[][] result_matrix_11 = new int[split_index][split_index];
+	double[][] result_matrix_00 = new double[split_index][split_index];
+	double[][] result_matrix_01 = new double[split_index][split_index];
+	double[][] result_matrix_10 = new double[split_index][split_index];
+	double[][] result_matrix_11 = new double[split_index][split_index];
 	initWithZeros(result_matrix_00,split_index,split_index);
 	initWithZeros(result_matrix_01,split_index,split_index);
 	initWithZeros(result_matrix_10,split_index,split_index);
 	initWithZeros(result_matrix_11,split_index,split_index);
  // subdividimos las matrices 
-	int[][] a00 = new int[split_index][split_index];
-	int[][] a01 = new int[split_index][split_index];
-	int[][] a10 = new int[split_index][split_index];
-	int[][] a11 = new int[split_index][split_index];
-	int[][] b00 = new int[split_index][split_index];
-	int[][] b01 = new int[split_index][split_index];
-	int[][] b10 = new int[split_index][split_index];
-	int[][] b11 = new int[split_index][split_index];
+	double[][] a00 = new double[split_index][split_index];
+	double[][] a01 = new double[split_index][split_index];
+	double[][] a10 = new double[split_index][split_index];
+	double[][] a11 = new double[split_index][split_index];
+	double[][] b00 = new double[split_index][split_index];
+	double[][] b01 = new double[split_index][split_index];
+	double[][] b10 = new double[split_index][split_index];
+	double[][] b11 = new double[split_index][split_index];
 	initWithZeros(a00,split_index,split_index);
 	initWithZeros(a01,split_index,split_index);
 	initWithZeros(a10,split_index,split_index);
@@ -131,28 +111,7 @@ public static int[][] multiply_matrix(int[][] matrix_A,int[][] matrix_B)
 	return result_matrix;
 }
 
-public static void main (String[] args) {
-	int[][] matrix_A = { { 1, 1, 1, 1 },
-						{ 2, 2, 2, 2 },
-						{ 3, 3, 3, 3 },
-						{ 2, 2, 2, 2 } };
 
-	System.out.println("Array A =>");
-	printMat(matrix_A,4,4);
-
-	int[][] matrix_B = { { 1, 1, 1, 1 },
-						{ 2, 2, 2, 2 },
-						{ 3, 3, 3, 3 },
-						{ 2, 2, 2, 2 } };
-
-	System.out.println("Array B =>");
-	printMat(matrix_B,4,4);
-
-	int[][] result_matrix = multiply_matrix(matrix_A, matrix_B);
-
-	System.out.println("Result Array =>");
-	printMat(result_matrix,4,4);
-}
 }
 // Time Complexity: O(n^3)
 //This code is contributed by shruti456rawal
