@@ -14,7 +14,7 @@ public class GeneradorMatrices {
         // Llenar la matriz con números aleatorios de 6 dígitos
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                matrix[i][j] = random.nextInt(900000) + 100000;
+                matrix[i][j] = random.nextInt(900_000) + 100_000;
             }
         }
 

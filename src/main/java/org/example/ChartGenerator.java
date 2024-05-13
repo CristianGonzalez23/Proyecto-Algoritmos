@@ -21,7 +21,7 @@ public class ChartGenerator {
      * @param xAxisTitle el título del eje x
      * @param yAxisTitle el título del eje y
      */
-    public static void generateBarChart(List<String> categories, List<Long> values, String chartTitle, String xAxisTitle, String yAxisTitle) {
+    public static void generateBarChart(List<String> categories, List<Long> values, String chartTitle, String xAxisTitle, String yAxisTitle, int i) {
         // Crea un nuevo gráfico de barras
         CategoryChart chart = new CategoryChartBuilder().width(1280).height(720).title(chartTitle).xAxisTitle(xAxisTitle).yAxisTitle(yAxisTitle).build();
 
@@ -33,12 +33,15 @@ public class ChartGenerator {
         // Ajusta el tamaño de las barras
         chart.getStyler().setAvailableSpaceFill(0.5); // Ajusta este valor según tus necesidades
 
+        // Añade la rotación de las etiquetas del eje X
+        chart.getStyler().setXAxisLabelRotation(15); // Ajusta este valor según tus necesidades
         // Añade la serie de datos al gráfico
-        chart.addSeries("Performance", categories, values);
+        chart.addSeries("Rendimiento", categories, values);
 
         // Intenta guardar el gráfico como una imagen PNG
         try {
-            BitmapEncoder.saveBitmap(chart, "./Grafico", BitmapEncoder.BitmapFormat.PNG);
+            String filename = "./Grafico" + i+"x"+i;
+            BitmapEncoder.saveBitmap(chart, filename, BitmapEncoder.BitmapFormat.PNG);
         } catch (IOException e) {
             // Imprime la traza de pila para cualquier IOException
             e.printStackTrace();

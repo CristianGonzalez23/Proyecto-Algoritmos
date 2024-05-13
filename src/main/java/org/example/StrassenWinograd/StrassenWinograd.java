@@ -1,239 +1,186 @@
 package org.example.StrassenWinograd;
 
-
-
+import java.util.Arrays;
 
 public class StrassenWinograd {
+    public static void multiply(double[][] A, double[][] B, double[][] Result, int N, int P, int M) {
+        int MaxSize; 
+		int k; 
+		int m; 
+		int NewSize;
 
+        MaxSize = Math.max(N, Math.max(P, M));
+
+        if (MaxSize < 16) {
+            MaxSize = 16; // otherwise it is not possible to compute k
+        }
+
+        k = (int) Math.floor(Math.log(MaxSize) / Math.log(2)) - 4;
+        m = (int) Math.floor(MaxSize * Math.pow(2, -k)) + 1;
+        NewSize = m * (int) Math.pow(2, k);
+
+        // add zero rows and columns to use Strassen's algorithm
+        double[][] NewA = new double[NewSize][NewSize];
+        double[][] NewB = new double[NewSize][NewSize];
+        double[][] AuxResult = new double[NewSize][NewSize];
+
+        // Initialize with zeros
+        for (double[] row : NewA) {
+            Arrays.fill(row, 0.0);
+        }
+        for (double[] row : NewB) {
+            Arrays.fill(row, 0.0);
+        }
+        for (double[] row : AuxResult) {
+            Arrays.fill(row, 0.0);
+        }
+
+        // Copy values from A and B
+        for (int i = 0; i < N; i++) {
+            System.arraycopy(A[i], 0, NewA[i], 0, P);
+        }
+        for (int i = 0; i < P; i++) {
+            System.arraycopy(B[i], 0, NewB[i], 0, M);
+        }
+
+        strassenWinogradStep(NewA, NewB, AuxResult, NewSize, m);
+
+        // Extract the result
+        for (int i = 0; i < N; i++) {
+            System.arraycopy(AuxResult[i], 0, Result[i], 0, M);
+        }
+    }
+
+    private static void strassenWinogradStep(double[][] A, double[][] B, double[][] Result, int N, int m) {
+		int NewSize;
 	
-	public int[][] multiply(int[][] A, int[][] B)
-	{
-		
-		int n = A.length;
-
-		int[][] R = new int[n][n];
-
+		if ((N % 2 == 0) && (N > m)) { // recursive use of StrassenNaivStep
+			NewSize = N / 2;
 	
-		if (n == 1)
-
-			
-			R[0][0] = A[0][0] * B[0][0];
-
-		
-		else {
-			
-			int[][] A11 = new int[n / 2][n / 2];
-			int[][] A12 = new int[n / 2][n / 2];
-			int[][] A21 = new int[n / 2][n / 2];
-			int[][] A22 = new int[n / 2][n / 2];
-			int[][] B11 = new int[n / 2][n / 2];
-			int[][] B12 = new int[n / 2][n / 2];
-			int[][] B21 = new int[n / 2][n / 2];
-			int[][] B22 = new int[n / 2][n / 2];
-
-			
-			split(A, A11, 0, 0);
-			split(A, A12, 0, n / 2);
-			split(A, A21, n / 2, 0);
-			split(A, A22, n / 2, n / 2);
-
-			
-			split(B, B11, 0, 0);
-			split(B, B12, 0, n / 2);
-			split(B, B21, n / 2, 0);
-			split(B, B22, n / 2, n / 2);
-
-			
-			int[][] M1
-				= multiply(add(A11, A22), add(B11, B22));
-		
-			// M2:=(A2+A4)×(B3+B4)
-			int[][] M2 = multiply(add(A21, A22), B11);
-		
-		
-			int[][] M3 = multiply(A11, sub(B12, B22));
-		
-			
-			int[][] M4 = multiply(A22, sub(B21, B11));
-		
-			int[][] M5 = multiply(add(A11, A12), B22);
-		
-			
-			int[][] M6
-				= multiply(sub(A21, A11), add(B11, B12));
-		
-			
-			int[][] M7
-				= multiply(sub(A12, A22), add(B21, B22));
-
-			
-			int[][] C11 = add(sub(add(M1, M4), M5), M7);
-		
-		
-			int[][] C12 = add(M3, M5);
-		
-			
-			int[][] C21 = add(M2, M4);
-		
-			int[][] C22 = add(sub(add(M1, M3), M2), M6);
-
-			// Step 3: Join 4 halves into one result matrix
-			join(C11, R, 0, 0);
-			join(C12, R, 0, n / 2);
-			join(C21, R, n / 2, 0);
-			join(C22, R, n / 2, n / 2);
+			// Decompose A and B
+			double[][] A11 = new double[NewSize][NewSize];
+			double[][] A12 = new double[NewSize][NewSize];
+			double[][] A21 = new double[NewSize][NewSize];
+			double[][] A22 = new double[NewSize][NewSize];
+			double[][] B11 = new double[NewSize][NewSize];
+			double[][] B12 = new double[NewSize][NewSize];
+			double[][] B21 = new double[NewSize][NewSize];
+			double[][] B22 = new double[NewSize][NewSize];
+	
+			// Create ResultPart, Aux1,...,Aux7 and Helper1, Helper2
+			double[][] A1 = new double[NewSize][NewSize];
+			double[][] A2 = new double[NewSize][NewSize];
+			double[][] B1 = new double[NewSize][NewSize];
+			double[][] B2 = new double[NewSize][NewSize];
+			double[][] ResultPart11 = new double[NewSize][NewSize];
+			double[][] ResultPart12 = new double[NewSize][NewSize];
+			double[][] ResultPart21 = new double[NewSize][NewSize];
+			double[][] ResultPart22 = new double[NewSize][NewSize];
+			double[][] Helper1 = new double[NewSize][NewSize];
+			double[][] Helper2 = new double[NewSize][NewSize];
+			double[][] Aux1 = new double[NewSize][NewSize];
+			double[][] Aux2 = new double[NewSize][NewSize];
+			double[][] Aux3 = new double[NewSize][NewSize];
+			double[][] Aux4 = new double[NewSize][NewSize];
+			double[][] Aux5 = new double[NewSize][NewSize];
+			double[][] Aux6 = new double[NewSize][NewSize];
+			double[][] Aux7 = new double[NewSize][NewSize];
+			double[][] Aux8 = new double[NewSize][NewSize];
+			double[][] Aux9 = new double[NewSize][NewSize];
+	
+			// Fill new matrices
+			for (int i = 0; i < NewSize; i++) {
+				System.arraycopy(A[i], 0, A11[i], 0, NewSize);
+				System.arraycopy(A[i], NewSize, A12[i], 0, NewSize);
+				System.arraycopy(A[NewSize + i], 0, A21[i], 0, NewSize);
+				System.arraycopy(A[NewSize + i], NewSize, A22[i], 0, NewSize);
+				System.arraycopy(B[i], 0, B11[i], 0, NewSize);
+				System.arraycopy(B[i], NewSize, B12[i], 0, NewSize);
+				System.arraycopy(B[NewSize + i], 0, B21[i], 0, NewSize);
+				System.arraycopy(B[NewSize + i], NewSize, B22[i], 0, NewSize);
+			}
+	
+			// Computing the 4 + 9 auxiliary variables
+			minus(A11, A21, A1, NewSize, NewSize);
+			minus(A22, A1, A2, NewSize, NewSize);
+			minus(B22, B12, B1, NewSize, NewSize);
+			plus(B1, B11, B2, NewSize, NewSize);
+			strassenWinogradStep(A11, B11, Aux1, NewSize, m);
+			strassenWinogradStep(A12, B21, Aux2, NewSize, m);
+			strassenWinogradStep(A2, B2, Aux3, NewSize, m);
+			plus(A21, A22, Helper1, NewSize, NewSize);
+			minus(B12, B11, Helper2, NewSize, NewSize);
+			strassenWinogradStep(Helper1, Helper2, Aux4, NewSize, m);
+			strassenWinogradStep(A1, B1, Aux5, NewSize, m);
+			minus(A12, A2, Helper1, NewSize, NewSize);
+			strassenWinogradStep(Helper1, B22, Aux6, NewSize, m);
+			minus(B21, B2, Helper1, NewSize, NewSize);
+			strassenWinogradStep(A22, Helper1, Aux7, NewSize, m);
+			plus(Aux1, Aux3, Aux8, NewSize, NewSize);
+			plus(Aux8, Aux4, Aux9, NewSize, NewSize);
+	
+			// Computing the four parts of the result
+			plus(Aux1, Aux2, ResultPart11, NewSize, NewSize);
+			plus(Aux9, Aux6, ResultPart12, NewSize, NewSize);
+			plus(Aux8, Aux5, Helper1, NewSize, NewSize);
+			plus(Helper1, Aux7, ResultPart21, NewSize, NewSize);
+			plus(Aux9, Aux5, ResultPart22, NewSize, NewSize);
+	
+			// Store results in the "result matrix"
+			for (int i = 0; i < NewSize; i++) {
+				System.arraycopy(ResultPart11[i], 0, Result[i], 0, NewSize);
+				System.arraycopy(ResultPart12[i], 0, Result[i], NewSize, NewSize);
+				System.arraycopy(ResultPart21[i], 0, Result[NewSize + i], 0, NewSize);
+				System.arraycopy(ResultPart22[i], 0, Result[NewSize + i], NewSize, NewSize);
+			}
+		} else {
+			// Use naive algorithm
+			naivStandard(A, B, Result, N, N, N);
 		}
-
-		// Step 4: Return result
-		return R;
 	}
 
-	// Method 2
-	// Function to subtract two matrices
-	public int[][] sub(int[][] A, int[][] B)
-	{
-		//
-		int n = A.length;
-
-		//
-		int[][] C = new int[n][n];
-
-		// Iterating over elements of 2D matrix
-		// using nested for loops
-
-		// Outer loop for rows
-		for (int i = 0; i < n; i++)
-
-			// Inner loop for columns
-			for (int j = 0; j < n; j++)
-
-				// Subtracting corresponding elements
-				// from matrices
-				C[i][j] = A[i][j] - B[i][j];
-
-		// Returning the resultant matrix
-		return C;
-	}
-
-	// Method 3
-	// Function to add two matrices
-	public int[][] add(int[][] A, int[][] B)
-	{
-
-		//
-		int n = A.length;
-
-		// Creating a 2D square matrix
-		int[][] C = new int[n][n];
-
-		// Iterating over elements of 2D matrix
-		// using nested for loops
-
-		// Outer loop for rows
-		for (int i = 0; i < n; i++)
-
-			// Inner loop for columns
-			for (int j = 0; j < n; j++)
-
-				// Adding corresponding elements
-				// of matrices
-				C[i][j] = A[i][j] + B[i][j];
-
-		// Returning the resultant matrix
-		return C;
-	}
-
-	// Method 4
-	// Function to split parent matrix
-	// into child matrices
-	public void split(int[][] P, int[][] C, int iB, int jB)
-	{
-		// Iterating over elements of 2D matrix
-		// using nested for loops
-
-		// Outer loop for rows
-		for (int i1 = 0, i2 = iB; i1 < C.length; i1++, i2++)
-
-			// Inner loop for columns
-			for (int j1 = 0, j2 = jB; j1 < C.length;
-				j1++, j2++)
-
-				C[i1][j1] = P[i2][j2];
-	}
-
-	// Method 5
-	// Function to join child matrices
-	// into (to) parent matrix
-	public void join(int[][] C, int[][] P, int iB, int jB)
-
-	{
-		// Iterating over elements of 2D matrix
-		// using nested for loops
-
-		// Outer loop for rows
-		for (int i1 = 0, i2 = iB; i1 < C.length; i1++, i2++)
-
-			// Inner loop for columns
-			for (int j1 = 0, j2 = jB; j1 < C.length;
-				j1++, j2++)
-
-				P[i2][j2] = C[i1][j1];
-	}
-
-	// Method 5
-	// Main driver method
-	public  void main(String[] args)
-	{
-		// Display message
-		System.out.println(
-			"Strassen Multiplication Algorithm Implementation For Matrix Multiplication :\n");
-
-		// Create an object of Strassen class
-		// in the main function
-		StrassenWinograd s = new StrassenWinograd();
-
-		// Size of matrix
-		// Considering size as 4 in order to illustrate
-		int N = 4;
-
-		// Matrix A
-		// Custom input to matrix
-		int[][] A = { { 1, 2, 3, 4 },
-					{ 4, 3, 0, 1 },
-					{ 5, 6, 1, 1 },
-					{ 0, 2, 5, 6 } };
-
-		// Matrix B
-		// Custom input to matrix
-		int[][] B = { { 1, 0, 5, 1 },
-					{ 1, 2, 0, 2 },
-					{ 0, 3, 2, 3 },
-					{ 1, 2, 1, 2 } };
-
-		// Matrix C computations
-
-		// Matrix C calling method to get Result
-		int[][] C = s.multiply(A, B);
-
-		// Display message
-		System.out.println(
-			"\nProduct of matrices A and B : ");
-
-		// Iterating over elements of 2D matrix
-		// using nested for loops
-
-		// Outer loop for rows
+	private static void plus(double[][] A, double[][] B, double[][] Result, int N, int M) {
 		for (int i = 0; i < N; i++) {
-			// Inner loop for columns
-			for (int j = 0; j < N; j++)
-
-				// Printing elements of resultant matrix
-				// with whitespaces in between
-				System.out.print(C[i][j] + " ");
-
-			// New line once the all elements
-			// are printed for specific row
-			System.out.println();
+			for (int j = 0; j < M; j++) {
+				Result[i][j] = A[i][j] + B[i][j];
+			}
 		}
 	}
+	
+	private static void minus(double[][] A, double[][] B, double[][] Result, int N, int M) {
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				Result[i][j] = A[i][j] - B[i][j];
+			}
+		}
+	}
+	
+	private static void naivStandard(double[][] A, double[][] B, double[][] Result, int N, int P, int M) {
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				double aux = 0.0;
+				for (int k = 0; k < P; k++) {
+					aux += A[i][k] * B[k][j];
+				}
+				Result[i][j] = aux;
+			}
+		}
+	}
+
+    public static void main(String[] args) {
+        // Example usage
+        double[][] A = {{1, 2}, {3, 4}};
+        double[][] B = {{5, 6}, {7, 8}};
+        double[][] Result = new double[2][2];
+
+        multiply(A, B, Result, 2, 2, 2);
+
+        // Print the result
+        for (double[] row : Result) {
+            for (double element : row) {
+                System.out.print(element + " ");
+            }
+            System.out.println();
+        }
+    }
 }

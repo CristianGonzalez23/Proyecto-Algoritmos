@@ -1,55 +1,112 @@
-NaiveOnArray1, 1000, 8136
-NaiveOnArray2, 100, 3
-NaiveOnArray1, 1000, 9040
-NaiveOnArray2, 100, 5
-NaiveOnArray1, 6, 1
-NaiveOnArray2, 10, 0
-NaiveOnArray1, 6, 2
-NaiveOnArray2, 10, 0
-NaiveOnArray3, 30, 1
-NaiveOnArray1, 6, 1
-NaiveOnArray2, 10, 0
-NaiveOnArray3, 30, 2
-NaiveOnArray1, 6, 3
-NaiveOnArray2, 10, 0
-NaiveOnArray3, 30, 1
-NaiveOnArray1, 6, 1
-NaiveOnArray2, 30, 1
-NaiveOnArray3, 10, 0
-NaiveOnArray1, 6, 1394400
-NaiveOnArray2, 30, 1413000
-NaiveOnArray3, 10, 52300
-NaiveOnArray1, 6, 3
-NaiveOnArray2, 30, 1
-NaiveOnArray3, 10, 0
-NaiveOnArray1, 6, 2
-NaiveOnArray2, 30, 1
-NaiveOnArray3, 10, 0
-NaiveOnArray1, 6, 2
-NaiveOnArray2, 30, 1
-NaiveOnArray3, 10, 1
-NaiveOnArray4, 100, 7
-NaiveOnArray5, 1000, 4603
-NaiveOnArray1, 6, 1
-NaiveOnArray2, 30, 1
-NaiveOnArray3, 10, 0
-NaiveOnArray4, 100, 7
-NaiveOnArray5, 1000, 4618
-NaivLoopUnrollingTwo, 100, 14
-NaiveOnArray, 6, 1
-NaivLoopUnrollingFour, 100, 13
-NaiveOnArray, 6, 8
-NaiveOnArray, 6, 8
-NaiveOnArray, 6, 1
-NaiveOnArray, 6, 1
-NaiveOnArray, 6, 1
-NaiveOnArray, 6, 2
-NaiveOnArray, 6, 1
-WinogradScaled, 1000, 4631
-WinogradScaled, 1000, 4739
-WinogradOriginal, 1000, 6503
-WinogradScaled, 1000, 6054
-WinogradScaled , 1000, 6416
-WinogradScaled , 1000, 5992
-WinogradScaled , 1024, 285187
-WinogradScaled , 1024, 0
+NaivOnArray , 16, 0
+NaivLoopUnrollingTwo , 16, 1
+NaivLoopUnrollingFour , 16, 1
+WinogradOriginal , 16, 1
+WinogradScaled , 16, 0
+StrassenWinograd , 16, 0
+III.3SequentialBlock , 16, 0
+III.4ParallelBlock , 16, 4
+III.5EnhanchedParallelBlock , 16, 9
+IV.3SequentialBlock , 16, 0
+IV.4ParallelBlock , 16, 5
+IV.5EnhanchedParallelBlock , 16, 5
+V.3SequentialBlock , 16, 0
+V.4ParallelBlock , 16, 15
+NaivOnArray , 32, 0
+NaivLoopUnrollingTwo , 32, 1
+NaivLoopUnrollingFour , 32, 1
+WinogradOriginal , 32, 1
+WinogradScaled , 32, 1
+StrassenWinograd , 32, 1
+III.3SequentialBlock , 32, 1
+III.4ParallelBlock , 32, 2
+III.5EnhanchedParallelBlock , 32, 5
+IV.3SequentialBlock , 32, 1
+IV.4ParallelBlock , 32, 2
+IV.5EnhanchedParallelBlock , 32, 6
+V.3SequentialBlock , 32, 1
+V.4ParallelBlock , 32, 2
+NaivOnArray , 64, 1
+NaivLoopUnrollingTwo , 64, 7
+NaivLoopUnrollingFour , 64, 2
+WinogradOriginal , 64, 2
+WinogradScaled , 64, 2
+StrassenWinograd , 64, 3
+III.3SequentialBlock , 64, 2
+III.4ParallelBlock , 64, 5
+III.5EnhanchedParallelBlock , 64, 3
+IV.3SequentialBlock , 64, 2
+IV.4ParallelBlock , 64, 4
+IV.5EnhanchedParallelBlock , 64, 3
+V.3SequentialBlock , 64, 3
+V.4ParallelBlock , 64, 5
+NaivOnArray , 128, 2
+NaivLoopUnrollingTwo , 128, 7
+NaivLoopUnrollingFour , 128, 3
+WinogradOriginal , 128, 2
+WinogradScaled , 128, 3
+StrassenWinograd , 128, 11
+III.3SequentialBlock , 128, 21
+III.4ParallelBlock , 128, 10
+III.5EnhanchedParallelBlock , 128, 9
+IV.3SequentialBlock , 128, 12
+IV.4ParallelBlock , 128, 16
+IV.5EnhanchedParallelBlock , 128, 12
+V.3SequentialBlock , 128, 14
+V.4ParallelBlock , 128, 16
+NaivOnArray , 256, 18
+NaivLoopUnrollingTwo , 256, 17
+NaivLoopUnrollingFour , 256, 21
+WinogradOriginal , 256, 17
+WinogradScaled , 256, 22
+StrassenWinograd , 256, 35
+III.3SequentialBlock , 256, 49
+III.4ParallelBlock , 256, 4
+III.5EnhanchedParallelBlock , 256, 46
+IV.3SequentialBlock , 256, 44
+IV.4ParallelBlock , 256, 3
+IV.5EnhanchedParallelBlock , 256, 51
+V.3SequentialBlock , 256, 48
+V.4ParallelBlock , 256, 24
+NaivOnArray , 512, 167
+NaivLoopUnrollingTwo , 512, 70
+NaivLoopUnrollingFour , 512, 197
+WinogradOriginal , 512, 184
+WinogradScaled , 512, 206
+StrassenWinograd , 512, 166
+III.3SequentialBlock , 512, 139
+III.4ParallelBlock , 512, 35
+III.5EnhanchedParallelBlock , 512, 227
+IV.3SequentialBlock , 512, 72
+IV.4ParallelBlock , 512, 13
+IV.5EnhanchedParallelBlock , 512, 223
+V.3SequentialBlock , 512, 266
+V.4ParallelBlock , 512, 133
+NaivOnArray , 1024, 2986
+NaivLoopUnrollingTwo , 1024, 1440
+NaivLoopUnrollingFour , 1024, 2414
+WinogradOriginal , 1024, 2978
+WinogradScaled , 1024, 2377
+StrassenWinograd , 1024, 1220
+III.3SequentialBlock , 1024, 1128
+III.4ParallelBlock , 1024, 560
+III.5EnhanchedParallelBlock , 1024, 1414
+IV.3SequentialBlock , 1024, 524
+IV.4ParallelBlock , 1024, 95
+IV.5EnhanchedParallelBlock , 1024, 1280
+V.3SequentialBlock , 1024, 2178
+V.4ParallelBlock , 1024, 1145
+NaivOnArray , 2048, 39091
+NaivLoopUnrollingTwo , 2048, 20278
+NaivLoopUnrollingFour , 2048, 23653
+WinogradOriginal , 2048, 39791
+WinogradScaled , 2048, 36574
+StrassenWinograd , 2048, 8378
+III.3SequentialBlock , 2048, 9677
+III.4ParallelBlock , 2048, 7838
+III.5EnhanchedParallelBlock , 2048, 12864
+IV.3SequentialBlock , 2048, 4465
+IV.4ParallelBlock , 2048, 1114
+IV.5EnhanchedParallelBlock , 2048, 9503
+V.3SequentialBlock , 2048, 19849
+V.4ParallelBlock , 2048, 13121

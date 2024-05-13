@@ -3,50 +3,63 @@ package org.example.WinogradScaled;
 
 import org.example.WinogradOriginal.WinogradOriginal;
 
-import java.lang.Math;
 
 public class WinogradScaled {
 
-    public static double[][] multiply(double[][] A, double[][] B, double[][] Result, int N, int P, int M) {
-        // Create scaled copies of A and B
+    public static void multiply(double[][] A, double[][] B, double[][] Result, int N, int P, int M) {
+        // Crear copias escaladas de A y B
         double[][] CopyA = new double[N][P];
         double[][] CopyB = new double[P][M];
-
-        // Scaling factors
-        double a = NormInf(A, N, P);
-        double b = NormInf(B, P, M);
-        double lambda = Math.floor(0.5 + Math.log(b/a) / Math.log(4));
-
-        // Scaling
-        double[][] escalada1 =MultiplyWithScalar(A, CopyA, N, P, Math.pow(2, lambda));
-        double[][] escalada2 =MultiplyWithScalar(B, CopyB, P, M, Math.pow(2, lambda));
-
-
-        // Using Winograd with scaled matrices
-        return WinogradOriginal.multiply(escalada1, escalada2, Result, N, P, M);
+    
+        // Factores de escalamiento
+        double a = normInf(A, N, P);
+        double b = normInf(B, P, M);
+        double lambda = Math.floor(0.5 + Math.log(b / a) / Math.log(4));
+    
+        // Escalamiento
+        multiplyWithScalar(A, CopyA, N, P, Math.pow(2, lambda));
+        multiplyWithScalar(B, CopyB, P, M, Math.pow(2, -lambda));
+    
+        // Usando Winograd con matrices escaladas
+        WinogradOriginal.multiply(CopyA, CopyB, Result, N, P, M);
     }
-
-    public static double NormInf(double[][] A, int N, int P) {
-        double norm = 0.0;
-        double aux;
-        for (int i = 0; i < N; i++) {
-            aux = 0.0;
-            for (int j = 0; j < P; j++) {
-                aux += Math.abs(A[i][j]);
+    
+    // Función auxiliar para calcular la norma infinito de una matriz
+    private static double normInf(double[][] matrix, int rows, int cols) {
+        double maxVal = Double.NEGATIVE_INFINITY;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                maxVal = Math.max(maxVal, Math.abs(matrix[i][j]));
             }
-            norm = Math.max(norm, aux);
         }
-        return norm;
+        return maxVal;
     }
-
-    private static double[][] MultiplyWithScalar(double[][] source, double[][] target, int rows, int cols, double scalar) {
+    
+    // Función auxiliar para multiplicar una matriz por un escalar
+    private static void multiplyWithScalar(double[][] source, double[][] target, int rows, int cols, double scalar) {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 target[i][j] = source[i][j] * scalar;
             }
         }
-        return target;
     }
 
+    public static void printMatrix(double[][] matrix, int rows, int cols) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
 
+    public static void main(String[] args) {
+        double[][] A = {{1, 2}, {3, 4}};
+        double[][] B = {{5, 6}, {7, 8}};
+
+        double[][] Result = new double[2][2];
+
+        multiply(A, B, Result, 2, 2, 2);
+        printMatrix(Result, 2, 2);
+    }
 }

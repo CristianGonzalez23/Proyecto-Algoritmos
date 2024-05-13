@@ -49,4 +49,24 @@ public class WinogradOriginal {
 
         return Result;
     }
+
+    public static void printMatrix(double[][] matrix, int rows, int cols) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        double[][] A = {{1, 2}, {3, 4}};
+        double[][] B = {{5, 6}, {7, 8}};
+
+        double[][] Result = new double[2][2];
+
+        multiply(A, B, Result, 2, 2, 2);
+        printMatrix(Result, 2, 2);
+    }
+
 }

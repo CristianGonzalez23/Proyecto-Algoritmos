@@ -19,7 +19,7 @@ public class LeerMatriz {
             }
             matrix.add(row);
         }
-
+        scanner.close();
         return matrix.toArray(new double[0][]);
     }
 }

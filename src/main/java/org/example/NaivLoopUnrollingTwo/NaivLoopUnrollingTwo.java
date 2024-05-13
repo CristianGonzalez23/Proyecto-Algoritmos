@@ -21,4 +21,21 @@ public class NaivLoopUnrollingTwo {
         }
         return result;
     }
+
+    public static void printMatrix(double[][] matrix) {
+        for (double[] row : matrix) {
+            for (double num : row) {
+                System.out.print(num + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        double[][] A = {{1, 2}, {3, 4}};
+        double[][] B = {{5, 6}, {7, 8}};
+
+        double[][] C = multiply(A, B);
+        printMatrix(C);
+    }
 }

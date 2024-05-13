@@ -1,14 +1,8 @@
 
 package org.example.StrassenNaiv;
-import java.io.*;
 import java.util.*;
 
 public class StrassenNaiv{
-
-
-
-
-
 
 public static void add_matrix(double[][] matrix_A,double[][] matrix_B,double[][] matrix_C, int split_index)
 {
@@ -111,6 +105,18 @@ public static double[][] multiply_matrix(double[][] matrix_A,double[][] matrix_B
 	return result_matrix;
 }
 
+public static void main(String[] args)
+{
+	double[][] matrix_A = {{1, 2}, {3, 4}};
+	double[][] matrix_B = {{5, 6}, {7, 8}};
+	double[][] result_matrix = multiply_matrix(matrix_A, matrix_B);
+	for (int i = 0; i < result_matrix.length; i++){
+	for (int j = 0; j < result_matrix[0].length; j++){
+		System.out.print(result_matrix[i][j] + " ");
+	}
+	System.out.println();
+	}
+}
 
 }
 // Time Complexity: O(n^3)
