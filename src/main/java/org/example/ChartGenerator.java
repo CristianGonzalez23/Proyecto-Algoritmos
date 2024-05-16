@@ -40,7 +40,7 @@ public class ChartGenerator {
 
         // Intenta guardar el gráfico como una imagen PNG
         try {
-            String filename = "./Grafico" + i+"x"+i;
+            String filename = "./Graficas/Grafico" + i+"x"+i;
             BitmapEncoder.saveBitmap(chart, filename, BitmapEncoder.BitmapFormat.PNG);
         } catch (IOException e) {
             // Imprime la traza de pila para cualquier IOException

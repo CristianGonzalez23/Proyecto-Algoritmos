@@ -31,8 +31,8 @@ public class CalculadoraTiempos {
         double[][] a;
         double[][] b;
         try {
-            a = LeerMatriz.loadMatrixFromFile("matriz" + i + ".txt");
-            b = LeerMatriz.loadMatrixFromFile("matriz" + i + "(2).txt");
+            a = LeerMatriz.loadMatrixFromFile("./matrices/matriz" + i + ".txt");
+            b = LeerMatriz.loadMatrixFromFile("./matrices/matriz" + i + "(2).txt");
             double[][] resultado = new double[a.length][b[0].length];
             int n = a.length;
             int p = b.length;
