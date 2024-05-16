@@ -45,13 +45,13 @@ public class CalculadoraTiempos {
             calcularWinogradScaled(a, b, resultado, n, p, m);
             calcularStrassenNaiv(a, b); //Realentiza demasiado el programa
             calcularStrassenWinograd(a, b, resultado, n, p, m);
-            calcularIII3SequentialBlock(a, b, i, 128);
+            calcularIII3SequentialBlock(a, b, i, i/4);
             calcularIII4ParallelBlock(a, b);
             calcularIII5EnhanchedParallelBlock(a, b);
-            calcularIV3SequentialBlock(a, b, i, 128);
+            calcularIV3SequentialBlock(a, b, i, i/4);
             calcularIV4ParallelBlock(a, b);
             calcularIV5EnhanchedParallelBlock(a, b);
-            calcularV3SequentialBlock(a,b,i,128);
+            calcularV3SequentialBlock(a,b,i,i/4);
             calcularV4ParallelBlock(a,b);
 
             ChartGenerator.generateBarChart(
@@ -76,7 +76,7 @@ public class CalculadoraTiempos {
     }
     private static void calcularV4ParallelBlock(double[][] a, double[][] b) {
         long start = System.currentTimeMillis();
-        V4_ParallelBlock.matrixMultiplicationParallel(a, b);
+        V4_ParallelBlock.matrixMultiplicationParallel(a, b, a.length, a.length/4);
         long end = System.currentTimeMillis();
         long executionTime = end - start;
         categorias.add("V4.ParallelBlock");
@@ -96,7 +96,7 @@ public class CalculadoraTiempos {
     }
     private static void calcularIV5EnhanchedParallelBlock(double[][] a, double[][] b) {
         long start = System.currentTimeMillis();
-        IV5_EnhancedParallelBlock.multiplyMatrices(a, b);
+        IV5_EnhancedParallelBlock.matrixMultiplicationParallel(a, b, a.length, a.length/4);
         long end = System.currentTimeMillis();
         long executionTime = end - start;
         categorias.add("IV5.EnhanchedParallelBlock");
@@ -106,7 +106,7 @@ public class CalculadoraTiempos {
     }
     private static void calcularIV4ParallelBlock(double[][] a, double[][] b) {
         long start = System.currentTimeMillis();
-        IV4_ParallelBlock.matrixMultiplicationParallel(a, b);
+        IV4_ParallelBlock.matrixMultiplicationParallel(a, b, a.length, a.length/4);
         long end = System.currentTimeMillis();
         long executionTime = end - start;
         categorias.add("IV4.ParallelBlock");
@@ -126,7 +126,7 @@ public class CalculadoraTiempos {
     }
     private static void calcularIII5EnhanchedParallelBlock(double[][] a, double[][] b) {
         long start = System.currentTimeMillis();
-        III5_EnhancedParallelBlock.multiplyMatrices(a, b);
+        III5_EnhancedParallelBlock.matrixMultiplicationParallel(a, b, a.length, a.length/4);
         long end = System.currentTimeMillis();
         long executionTime = end - start;
         categorias.add("III5.EnhanchedParallelBlock");
@@ -136,7 +136,7 @@ public class CalculadoraTiempos {
     }
     private static void calcularIII4ParallelBlock(double[][] a, double[][] b) {
         long start = System.currentTimeMillis();
-        III4_ParallelBlock.matrixMultiplicationParallel(a, b);
+        III4_ParallelBlock.matrixMultiplicationParallel(a, b, a.length, a.length/4);
         long end = System.currentTimeMillis();
         long executionTime = end - start;
         categorias.add("III4.ParallelBlock");
@@ -168,7 +168,7 @@ public class CalculadoraTiempos {
     }
     private static void calcularStrassenNaiv(double[][] a, double[][] b) {
         long start = System.currentTimeMillis();
-        StrassenNaiv.multiply_matrix(a, b);
+        StrassenNaiv.multiply(a, b);
         long end = System.currentTimeMillis();
         long executionTime = end - start;
         categorias.add("StrassenNaiv");

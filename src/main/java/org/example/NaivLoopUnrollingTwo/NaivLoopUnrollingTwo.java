@@ -1,25 +1,40 @@
 package org.example.NaivLoopUnrollingTwo;
 
-
 public class NaivLoopUnrollingTwo {
-    public static double[][] multiply(double[][] a, double[][] b) {
-        int size = a.length;
-        double[][] result = new double[size][size];
-        for (int i = 0; i < size; i += 2) {
-            for (int j = 0; j < size; j += 2) {
-                for (int k = 0; k < size; k += 2) {
-                    double sum1 = a[i][k] * b[k][j] + a[i][k + 1] * b[k + 1][j];
-                    double sum2 = a[i][k] * b[k][j + 1] + a[i][k + 1] * b[k + 1][j + 1];
-                    double sum3 = a[i + 1][k] * b[k][j] + a[i + 1][k + 1] * b[k + 1][j];
-                    double sum4 = a[i + 1][k] * b[k][j + 1] + a[i + 1][k + 1] * b[k + 1][j + 1];
-                    result[i][j] += sum1;
-                    result[i][j + 1] += sum2;
-                    result[i + 1][j] += sum3;
-                    result[i + 1][j + 1] += sum4;
+    public static double[][] multiply(double[][] A, double[][] B) {
+        int N = A.length;
+        int P = A[0].length;
+        int M = B[0].length;
+        double[][] Result = new double[N][M];
+        int i;
+        int j;
+        int k;
+        double aux;
+
+        if (P % 2 == 0) {
+            for (i = 0; i < N; i++) {
+                for (j = 0; j < M; j++) {
+                    aux = 0.0;
+                    for (k = 0; k < P; k += 2) {
+                        aux += A[i][k] * B[k][j] + A[i][k + 1] * B[k + 1][j];
+                    }
+                    Result[i][j] = aux;
+                }
+            }
+        } else {
+            int PP = P - 1;
+            for (i = 0; i < N; i++) {
+                for (j = 0; j < M; j++) {
+                    aux = 0.0;
+                    for (k = 0; k < PP; k += 2) {
+                        aux += A[i][k] * B[k][j] + A[i][k + 1] * B[k + 1][j];
+                    }
+                    Result[i][j] = aux + A[i][PP] * B[PP][j];
                 }
             }
         }
-        return result;
+
+        return Result;
     }
 
     public static void printMatrix(double[][] matrix) {

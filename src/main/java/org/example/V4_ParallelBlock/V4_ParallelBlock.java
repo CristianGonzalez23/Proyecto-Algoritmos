@@ -2,6 +2,7 @@ package org.example.V4_ParallelBlock;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class V4_ParallelBlock {
     private static final int NUM_THREADS = Runtime.getRuntime().availableProcessors();
@@ -10,41 +11,46 @@ public class V4_ParallelBlock {
         double[][] A = {{1, 2}, {3, 4}};
         double[][] B = {{5, 6}, {7, 8}};
 
-        double[][] C = matrixMultiplicationParallel(A, B);
+        double[][] C = matrixMultiplicationParallel(A, B,2,1);
         printMatrix(C);
         
     }
 
-    public static double[][] matrixMultiplicationParallel(double[][] A, double[][] B) {
-        int m = A.length;
-        int n = A[0].length;
-        int p = B.length;
-        int q = B[0].length;
-
-        if (n != p) {
-            throw new IllegalArgumentException("Las dimensiones de las matrices no son compatibles para la multiplicación.");
+    public static double[][] matrixMultiplicationParallel(double[][] A, double[][] B, int size, int bsize) {
+        double[][] C = new double[size][size];
+    
+        // Inicialización de C a ceros
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                C[i][j] = 0;
+            }
         }
-
-        double[][] C = new double[m][q];
-
+    
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
-
-        for (int i = 0; i < m; i++) {
-            final int row = i;
-            executor.execute(() -> {
-                for (int j = 0; j < q; j++) {
-                    for (int k = 0; k < n; k++) {
-                        C[k][row] += A[k][j] * B[j][row];
+    
+        executor.execute(() -> {
+            for (int i1 = 0; i1 < size; i1 += bsize) {
+                for (int j1 = 0; j1 < size; j1 += bsize) {
+                    for (int k1 = 0; k1 < size; k1 += bsize) {
+                        for (int i = i1; i < i1 + bsize && i < size; i++) {
+                            for (int j = j1; j < j1 + bsize && j < size; j++) {
+                                for (int k = k1; k < k1 + bsize && k < size; k++) {
+                                    C[k][i] += A[k][j] * B[j][i];
+                                }
+                            }
+                        }
                     }
                 }
-            });
-        }
-
+            }
+        });
+    
         executor.shutdown();
-        while (!executor.isTerminated()) {
-            // Esperar a que todas las tareas se completen
+        try {
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            System.err.println("Error: " + e.getMessage());
         }
-
+    
         return C;
     }
 

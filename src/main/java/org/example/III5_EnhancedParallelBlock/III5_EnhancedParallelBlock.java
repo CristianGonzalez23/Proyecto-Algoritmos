@@ -2,92 +2,65 @@ package org.example.III5_EnhancedParallelBlock;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 public class III5_EnhancedParallelBlock {
-    
-
-
 
     private static final int NUM_THREADS = Runtime.getRuntime().availableProcessors();
 
-    public static double[][] multiplyMatrices(double[][] a, double[][] b) {
-        int aRows = a.length;
-        int aCols = a[0].length;
-        int bCols = b[0].length;
-
-        if (aCols != b.length) {
-            throw new IllegalArgumentException("Matrices cannot be multiplied: dimensions mismatch");
-        }
-
-        double[][] result = new double[aRows][bCols];
-        int blockSize = Math.max(1, aRows / NUM_THREADS);
+    public static double[][] matrixMultiplicationParallel(double[][] A, double[][] B, int size, int bsize) {
+        double[][] result = new double[size][size];
 
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
 
-        for (int i = 0; i < aRows; i += blockSize) {
-            for (int j = 0; j < bCols; j += blockSize) {
-                for (int k = 0; k < aCols; k += blockSize) {
-                    executor.submit(new MatrixMultiplier(a, b, result, i, j, k,
-                            Math.min(i + blockSize, aRows),
-                            Math.min(j + blockSize, bCols),
-                            Math.min(k + blockSize, aCols)));
+        // First part of the matrix multiplication
+        executor.execute(() -> {
+            for (int i1 = 0; i1 < size / 2; i1 += bsize) {
+                for (int j1 = 0; j1 < size; j1 += bsize) {
+                    for (int k1 = 0; k1 < size; k1 += bsize) {
+                        for (int i = i1; i < i1 + bsize && i < size; i++) {
+                            for (int j = j1; j < j1 + bsize && j < size; j++) {
+                                for (int k = k1; k < k1 + bsize && k < size; k++) {
+                                    result[i][j] += A[i][k] * B[k][j];
+                                }
+                            }
+                        }
+                    }
                 }
             }
-        }
+        });
+
+        // Second part of the matrix multiplication
+        executor.execute(() -> {
+            for (int i1 = size / 2; i1 < size; i1 += bsize) {
+                for (int j1 = 0; j1 < size; j1 += bsize) {
+                    for (int k1 = 0; k1 < size; k1 += bsize) {
+                        for (int i = i1; i < i1 + bsize && i < size; i++) {
+                            for (int j = j1; j < j1 + bsize && j < size; j++) {
+                                for (int k = k1; k < k1 + bsize && k < size; k++) {
+                                    result[i][j] += A[i][k] * B[k][j];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
         executor.shutdown();
         try {
             executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("Error: " + e.getMessage());
         }
 
         return result;
-    }
-
-    private static class MatrixMultiplier implements Runnable {
-        private final double[][] a;
-        private final double[][] b;
-        private final double[][] result;
-        private final int startRow;
-        private final int startCol;
-        private final int startCommon;
-        private final int endRow;
-        private final int endCol;
-        private final int endCommon;
-
-        public MatrixMultiplier(double[][] a, double[][] b, double[][] result,
-                                int startRow, int startCol, int startCommon,
-                                int endRow, int endCol, int endCommon) {
-            this.a = a;
-            this.b = b;
-            this.result = result;
-            this.startRow = startRow;
-            this.startCol = startCol;
-            this.startCommon = startCommon;
-            this.endRow = endRow;
-            this.endCol = endCol;
-            this.endCommon = endCommon;
-        }
-
-        @Override
-        public void run() {
-            for (int i = startRow; i < endRow; i++) {
-                for (int j = startCol; j < endCol; j++) {
-                    synchronized (result) { // Synchronize on the result matrix
-                        for (int k = startCommon; k < endCommon; k++) {
-                            result[i][j] += a[i][k] * b[k][j];
-                        }
-                    }
-                }
-            }
-        }
     }
 
     public static void main(String[] args) {
         double[][] A = {{1, 2}, {3, 4}};
         double[][] B = {{5, 6}, {7, 8}};
 
-        double[][] result = multiplyMatrices(A, B);
+        double[][] result = matrixMultiplicationParallel(A, B, A.length, 1);
 
         // Print the result matrix
         System.out.println("Result Matrix:");
@@ -103,4 +76,3 @@ public class III5_EnhancedParallelBlock {
         }
     }
 }
-
