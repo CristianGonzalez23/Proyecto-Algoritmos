@@ -18,14 +18,15 @@ public class InterfazMenu extends JFrame implements ActionListener {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        opciones = new JLabel("<html>1. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 16x16<br><br>"+
-                                    "2. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 32x32<br><br>"+
-                                    "3. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 64x64<br><br>"+
-                                    "4. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 128x128<br><br>"+
-                                    "5. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 256x256<br><br>"+
-                                    "6. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 512x512<br><br>"+
-                                    "7. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 1024x1024<br><br>"+
-                                    "8. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 2048x2048</html>");
+        opciones = new JLabel("<html>1. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 8x8<br><br>"+
+                                    "2. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 16x16<br><br>"+
+                                    "3. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 32x32<br><br>"+
+                                    "4. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 64x64<br><br>"+
+                                    "5. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 128x128<br><br>"+
+                                    "6. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 256x256<br><br>"+
+                                    "7. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 512x512<br><br>"+
+                                    "8. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 1024x1024<br><br>"+
+                                    "9. Calcular tiempos de ejecución de los algortimos con matrices de tamaño 2048x2048</html>");
 
         panelOpciones = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -59,27 +60,30 @@ public class InterfazMenu extends JFrame implements ActionListener {
             int opcion = Integer.parseInt(campoOpcion.getText());
             switch (opcion) {
                 case 1:
-                    CalculadoraTiempos.calcularTiempos(16);
+                    CalculadoraTiempos.calcularTiempos(8);
                     break;
                 case 2:
-                    CalculadoraTiempos.calcularTiempos(32);
+                    CalculadoraTiempos.calcularTiempos(16);
                     break;
                 case 3:
-                    CalculadoraTiempos.calcularTiempos(64);
+                    CalculadoraTiempos.calcularTiempos(32);
                     break;
                 case 4:
-                    CalculadoraTiempos.calcularTiempos(128);
+                    CalculadoraTiempos.calcularTiempos(64);
                     break;
                 case 5:
-                    CalculadoraTiempos.calcularTiempos(256);
+                    CalculadoraTiempos.calcularTiempos(128);
                     break;
                 case 6:
-                    CalculadoraTiempos.calcularTiempos(512);
+                    CalculadoraTiempos.calcularTiempos(256);
                     break;
                 case 7:
-                    CalculadoraTiempos.calcularTiempos(1024);
+                    CalculadoraTiempos.calcularTiempos(512);
                     break;
                 case 8:
+                    CalculadoraTiempos.calcularTiempos(1024);
+                    break;
+                case 9:
                     CalculadoraTiempos.calcularTiempos(2048);
                     break;
                 default:

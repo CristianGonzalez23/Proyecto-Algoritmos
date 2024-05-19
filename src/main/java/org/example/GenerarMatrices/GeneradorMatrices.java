@@ -33,4 +33,10 @@ public class GeneradorMatrices {
             e.printStackTrace();
         }
     }
+
+    // Método principal para probar la generación de matrices
+    public static void main(String[] args) {
+        generateMatrizToFile(8, "matriz8x8(2).txt");
+
+    }
 }
