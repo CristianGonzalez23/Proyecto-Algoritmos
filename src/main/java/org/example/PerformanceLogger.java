@@ -19,11 +19,11 @@ public class PerformanceLogger {
      * @param inputSize el tamaño de la entrada al algoritmo
      * @param executionTime el tiempo de ejecución del algoritmo en nanosegundos
      */
-    public static void logPerformance(String algorithmName, int inputSize, long executionTime) {
+    public static void logPerformance(String algorithmName, int inputSize, double executionTime) {
         // Utiliza try-with-resources para asegurar que el BufferedWriter se cierre después de su uso
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
             // Escribe los datos de rendimiento en el archivo
-            writer.write(String.format("%s, %d, %d\n", algorithmName, inputSize, executionTime));
+            writer.write(String.format("%s, %d, %.4f\n", algorithmName, inputSize, executionTime));
         } catch (IOException e) {
             // Imprime la traza de pila para cualquier IOException
             e.printStackTrace();

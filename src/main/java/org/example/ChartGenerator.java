@@ -21,7 +21,7 @@ public class ChartGenerator {
      * @param xAxisTitle el título del eje x
      * @param yAxisTitle el título del eje y
      */
-    public static void generateBarChart(List<String> categories, List<Long> values, String chartTitle, String xAxisTitle, String yAxisTitle, int i) {
+    public static void generateBarChart(List<String> categories, List<Double> values, String chartTitle, String xAxisTitle, String yAxisTitle, int i) {
         // Crea un nuevo gráfico de barras
         CategoryChart chart = new CategoryChartBuilder().width(1280).height(720).title(chartTitle).xAxisTitle(xAxisTitle).yAxisTitle(yAxisTitle).build();
 
