@@ -4,30 +4,47 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Clase V4_ParallelBlock que implementa la multiplicación de matrices utilizando un enfoque de bloque paralelo.
+ */
 public class V4_ParallelBlock {
     private static final int NUM_THREADS = Runtime.getRuntime().availableProcessors();
 
+    /**
+     * Método principal para probar la multiplicación de matrices utilizando un enfoque de bloque paralelo.
+     *
+     * @param args argumentos de la línea de comandos
+     */
     public static void main(String[] args) {
         double[][] A = {{1, 2}, {3, 4}};
         double[][] B = {{5, 6}, {7, 8}};
 
         double[][] C = matrixMultiplicationParallel(A, B,2,1);
         printMatrix(C);
-        
+
     }
 
+    /**
+     * Método para multiplicar dos matrices utilizando un enfoque de bloque paralelo.
+     *
+     * @param A primera matriz
+     * @param B segunda matriz
+     * @param size tamaño de las matrices
+     * @param bsize tamaño del bloque
+     * @return Resultado de la multiplicación de las matrices A y B
+     */
     public static double[][] matrixMultiplicationParallel(double[][] A, double[][] B, int size, int bsize) {
         double[][] C = new double[size][size];
-    
+
         // Inicialización de C a ceros
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 C[i][j] = 0;
             }
         }
-    
+
         ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
-    
+
         executor.execute(() -> {
             for (int i1 = 0; i1 < size; i1 += bsize) {
                 for (int j1 = 0; j1 < size; j1 += bsize) {
@@ -43,17 +60,22 @@ public class V4_ParallelBlock {
                 }
             }
         });
-    
+
         executor.shutdown();
         try {
             executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException e) {
             System.err.println("Error: " + e.getMessage());
         }
-    
+
         return C;
     }
 
+    /**
+     * Método para imprimir una matriz.
+     *
+     * @param matrix matriz a imprimir
+     */
     public static void printMatrix(double[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {

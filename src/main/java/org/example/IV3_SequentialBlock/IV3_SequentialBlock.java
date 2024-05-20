@@ -1,9 +1,19 @@
 package org.example.IV3_SequentialBlock;
 
+/**
+ * Clase IV3_SequentialBlock que contiene métodos para la multiplicación de matrices utilizando el método de bloques secuenciales.
+ */
 public class IV3_SequentialBlock{
 
-
-
+    /**
+     * Método para multiplicar dos matrices utilizando el método de bloques secuenciales.
+     *
+     * @param A La primera matriz para la multiplicación.
+     * @param B La segunda matriz para la multiplicación.
+     * @param size El tamaño de las matrices.
+     * @param bsize El tamaño de los bloques.
+     * @return La matriz resultante de la multiplicación.
+     */
     public static double[][] blockMatrixMultiply(double[][] A, double[][] B, int size, int bsize) {
         // Crear la matriz resultado
         double[][] result = new double[size][size];
@@ -27,16 +37,25 @@ public class IV3_SequentialBlock{
         return result;
     }
 
-public static void main(String[] args) {
+    /**
+     * Método principal para probar la multiplicación de matrices.
+     *
+     * @param args Argumentos de la línea de comandos.
+     */
+    public static void main(String[] args) {
         double[][] A = {{1, 2}, {3, 4}};
         double[][] B = {{5, 6}, {7, 8}};
 
         double[][] C = blockMatrixMultiply(A, B, 2,128);
         printMatrix(C);
-        
+
     }
 
-    // Función auxiliar para imprimir una matriz
+    /**
+     * Método auxiliar para imprimir una matriz.
+     *
+     * @param matrix La matriz a imprimir.
+     */
     public static void printMatrix(double[][] matrix) {
         for (double[] row : matrix) {
             for (double num : row) {

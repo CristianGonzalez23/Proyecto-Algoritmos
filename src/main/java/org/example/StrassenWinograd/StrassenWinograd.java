@@ -2,9 +2,34 @@ package org.example.StrassenWinograd;
 
 import java.util.Arrays;
 
+/**
+ * Clase StrassenWinograd que implementa el algoritmo de Strassen-Winograd para la multiplicación de matrices.
+ */
 public class StrassenWinograd {
+
+	/**
+	 * Método para multiplicar dos matrices utilizando el algoritmo de Strassen-Winograd.
+	 *
+	 * @param A primera matriz
+	 * @param B segunda matriz
+	 * @param Result matriz de resultado
+	 * @param N número de filas de la matriz A
+	 * @param P número de columnas de la matriz A y número de filas de la matriz B
+	 * @param M número de columnas de la matriz B
+	 */
+
     public static void multiply(double[][] A, double[][] B, double[][] Result, int N, int P, int M) {
-        int MaxSize; 
+
+		/**
+		 * Método recursivo para el algoritmo de Strassen-Winograd.
+		 *
+		 * @param A primera matriz
+		 * @param B segunda matriz
+		 * @param Result matriz de resultado
+		 * @param N tamaño de la matriz
+		 * @param m tamaño mínimo de la matriz para el uso recursivo del algoritmo de Strassen-Winograd
+		 */
+		int MaxSize;
 		int k; 
 		int m; 
 		int NewSize;

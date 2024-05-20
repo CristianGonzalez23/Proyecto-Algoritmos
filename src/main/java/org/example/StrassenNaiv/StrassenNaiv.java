@@ -1,6 +1,15 @@
 package org.example.StrassenNaiv;
 
 public class StrassenNaiv {
+
+    /**
+     * Multiplica dos matrices A y B usando un método híbrido de Strassen y el método ingenuo.
+     * Si las matrices son pequeñas, utiliza el método ingenuo; de lo contrario, usa el algoritmo de Strassen.
+     *
+     * @param A La primera matriz.
+     * @param B La segunda matriz.
+     * @return La matriz resultante después de la multiplicación.
+     */
     public static double[][] multiply(double[][] A, double[][] B) {
         int N = A.length;
         int P = A[0].length;
@@ -8,29 +17,27 @@ public class StrassenNaiv {
         int MaxSize, k, m, NewSize, i, j;
         MaxSize = Math.max(N, Math.max(P, M));
         if (MaxSize < 16) {
-            MaxSize = 16; // otherwise it is not possible to compute k
+            MaxSize = 16; // Asegurar tamaño mínimo para el algoritmo de Strassen.
         }
         k = (int) (Math.floor(Math.log(MaxSize) / Math.log(2)) - 4);
         m = (int) (Math.floor(MaxSize * Math.pow(2, -k)) + 1);
         NewSize = m * (int) Math.pow(2, k);
-        // add zero rows and columns to use Strassens algorithm
+
+        // Inicializar nuevas matrices con relleno de ceros.
         double[][] NewA = new double[NewSize][NewSize];
         double[][] NewB = new double[NewSize][NewSize];
         double[][] AuxResult = new double[NewSize][NewSize];
-        for (i = 0; i < NewSize; i++) {
-            for (j = 0; j < NewSize; j++) {
-                NewA[i][j] = 0.0;
-                NewB[i][j] = 0.0;
-            }
-        }
+
         for (i = 0; i < N; i++) {
             System.arraycopy(A[i], 0, NewA[i], 0, P);
         }
         for (i = 0; i < P; i++) {
             System.arraycopy(B[i], 0, NewB[i], 0, M);
         }
+
         StrassenNaivStep(NewA, NewB, AuxResult, NewSize, m);
-        // extract the result
+
+        // Extraer la matriz resultante.
         double[][] Result = new double[N][M];
         for (i = 0; i < N; i++) {
             System.arraycopy(AuxResult[i], 0, Result[i], 0, M);
@@ -38,12 +45,20 @@ public class StrassenNaiv {
         return Result;
     }
 
+    /**
+     * Realiza el paso del algoritmo de Strassen de forma recursiva.
+     *
+     * @param A La primera matriz.
+     * @param B La segunda matriz.
+     * @param Result La matriz resultante.
+     * @param N El tamaño actual de la matriz.
+     * @param m El parámetro de tamaño ajustado.
+     */
     public static void StrassenNaivStep(double[][] A, double[][] B, double[][] Result, int N, int m) {
-        int i, j, NewSize;
-        if (N % 2 == 0 && N > m) { // recursive use of StrassenNaivStep
-            NewSize = N / 2;
-            // Decompose A and B
-            // Create ResultPart, Aux1,...,Aux7 and Helper1, Helper2
+        if (N % 2 == 0 && N > m) {
+            int NewSize = N / 2;
+
+            // Inicializar submatrices.
             double[][] A11 = new double[NewSize][NewSize];
             double[][] A12 = new double[NewSize][NewSize];
             double[][] A21 = new double[NewSize][NewSize];
@@ -65,9 +80,10 @@ public class StrassenNaiv {
             double[][] Aux5 = new double[NewSize][NewSize];
             double[][] Aux6 = new double[NewSize][NewSize];
             double[][] Aux7 = new double[NewSize][NewSize];
-            // Fill new matrices
-            for (i = 0; i < NewSize; i++) {
-                for (j = 0; j < NewSize; j++) {
+
+            // Llenar las submatrices.
+            for (int i = 0; i < NewSize; i++) {
+                for (int j = 0; j < NewSize; j++) {
                     A11[i][j] = A[i][j];
                     A12[i][j] = A[i][NewSize + j];
                     A21[i][j] = A[NewSize + i][j];
@@ -78,7 +94,8 @@ public class StrassenNaiv {
                     B22[i][j] = B[NewSize + i][NewSize + j];
                 }
             }
-            // Computing the seven aux. variables
+
+            // Calcular las matrices auxiliares.
             Plus(A11, A22, Helper1, NewSize, NewSize);
             Plus(B11, B22, Helper2, NewSize, NewSize);
             StrassenNaivStep(Helper1, Helper2, Aux1, NewSize, m);
@@ -96,7 +113,8 @@ public class StrassenNaiv {
             Minus(A12, A22, Helper1, NewSize, NewSize);
             Plus(B21, B22, Helper2, NewSize, NewSize);
             StrassenNaivStep(Helper1, Helper2, Aux7, NewSize, m);
-            // Computing the four parts of the result
+
+            // Calcular las partes del resultado.
             Plus(Aux1, Aux4, ResultPart11, NewSize, NewSize);
             Minus(ResultPart11, Aux5, ResultPart11, NewSize, NewSize);
             Plus(ResultPart11, Aux7, ResultPart11, NewSize, NewSize);
@@ -105,26 +123,36 @@ public class StrassenNaiv {
             Plus(Aux1, Aux3, ResultPart22, NewSize, NewSize);
             Minus(ResultPart22, Aux2, ResultPart22, NewSize, NewSize);
             Plus(ResultPart22, Aux6, ResultPart22, NewSize, NewSize);
-            // Store results in the "result matrix"
-            for (i = 0; i < NewSize; i++) {
+
+            // Almacenar el resultado.
+            for (int i = 0; i < NewSize; i++) {
                 System.arraycopy(ResultPart11[i], 0, Result[i], 0, NewSize);
                 System.arraycopy(ResultPart12[i], 0, Result[i], NewSize, NewSize);
             }
-            for (i = 0; i < NewSize; i++) {
+            for (int i = 0; i < NewSize; i++) {
                 System.arraycopy(ResultPart21[i], 0, Result[NewSize + i], 0, NewSize);
                 System.arraycopy(ResultPart22[i], 0, Result[NewSize + i], NewSize, NewSize);
             }
         } else {
-            // Use naive algorithm
+            // Usar el método de multiplicación ingenuo.
             NaivStandard(A, B, Result, N, N, N);
         }
     }
 
+    /**
+     * Realiza la multiplicación de matrices de forma ingenua.
+     *
+     * @param A La primera matriz.
+     * @param B La segunda matriz.
+     * @param Result La matriz resultante.
+     * @param N Número de filas en A y Result.
+     * @param P Número de columnas en A y filas en B.
+     * @param M Número de columnas en B y Result.
+     */
     public static void NaivStandard(double[][] A, double[][] B, double[][] Result, int N, int P, int M) {
-        double aux;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                aux = 0.0;
+                double aux = 0.0;
                 for (int k = 0; k < P; k++) {
                     aux += A[i][k] * B[k][j];
                 }
@@ -133,6 +161,15 @@ public class StrassenNaiv {
         }
     }
 
+    /**
+     * Suma dos matrices.
+     *
+     * @param A La primera matriz.
+     * @param B La segunda matriz.
+     * @param Result La matriz resultante.
+     * @param N El número de filas.
+     * @param M El número de columnas.
+     */
     public static void Plus(double[][] A, double[][] B, double[][] Result, int N, int M) {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
@@ -141,28 +178,20 @@ public class StrassenNaiv {
         }
     }
 
+    /**
+     * Resta dos matrices.
+     *
+     * @param A La primera matriz.
+     * @param B La segunda matriz.
+     * @param Result La matriz resultante.
+     * @param N El número de filas.
+     * @param M El número de columnas.
+     */
     public static void Minus(double[][] A, double[][] B, double[][] Result, int N, int M) {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
                 Result[i][j] = A[i][j] - B[i][j];
             }
         }
-    }
-
-    public static void printMatrix(double[][] matrix) {
-        for (double[] row : matrix) {
-            for (double num : row) {
-                System.out.print(num + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    public static void main(String[] args) {
-        double[][] A = {{1, 2}, {3, 4}};
-        double[][] B = {{5, 6}, {7, 8}};
-
-        double[][] C = multiply(A, B);
-        printMatrix(C);
     }
 }

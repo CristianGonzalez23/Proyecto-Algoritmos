@@ -1,6 +1,21 @@
 package org.example.WinogradOriginal;
 
+/**
+ * Clase WinogradOriginal que implementa la multiplicación de matrices utilizando el algoritmo de Winograd.
+ */
 public class WinogradOriginal {
+
+    /**
+     * Método para multiplicar dos matrices utilizando el algoritmo de Winograd.
+     *
+     * @param A primera matriz
+     * @param B segunda matriz
+     * @param Result matriz de resultado
+     * @param N número de filas de la matriz A
+     * @param P número de columnas de la matriz A y número de filas de la matriz B
+     * @param M número de columnas de la matriz B
+     * @return Resultado de la multiplicación de las matrices A y B
+     */
     public static double[][] multiply(double[][] A, double[][] B, double[][] Result, int N, int P, int M) {
         double aux;
         int upsilon = P % 2;

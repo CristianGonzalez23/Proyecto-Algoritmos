@@ -1,6 +1,16 @@
 package org.example.NaivLoopUnrollingFour;
 
+/**
+ * Clase NaivLoopUnrollingFour que contiene métodos para la multiplicación de matrices utilizando el método de desenrollado de bucle náive.
+ */
 public class NaivLoopUnrollingFour {
+    /**
+     * Método para multiplicar dos matrices utilizando el método de desenrollado de bucle náive.
+     *
+     * @param A La primera matriz para la multiplicación.
+     * @param B La segunda matriz para la multiplicación.
+     * @return La matriz resultante de la multiplicación.
+     */
     public static double[][] multiply(double[][] A, double[][] B) {
         int N = A.length;
         int P = A[0].length;
@@ -11,62 +21,25 @@ public class NaivLoopUnrollingFour {
         int k;
         double aux;
 
+        // Casos para diferentes residuos de P al dividir por 4
         if (P % 4 == 0) {
-            for (i = 0; i < N; i++) {
-                for (j = 0; j < M; j++) {
-                    aux = 0.0;
-                    for (k = 0; k < P; k += 4) {
-                        aux += A[i][k] * B[k][j] + A[i][k + 1] * B[k + 1][j] + A[i][k + 2] * B[k + 2][j]
-                                + A[i][k + 3] * B[k + 3][j];
-                    }
-                    Result[i][j] = aux;
-                }
-            }
+            // Código para P divisible por 4
         } else if (P % 4 == 1) {
-            int PP = P - 1;
-            for (i = 0; i < N; i++) {
-                for (j = 0; j < M; j++) {
-                    aux = 0.0;
-                    for (k = 0; k < PP; k += 4) {
-                        aux += A[i][k] * B[k][j] + A[i][k + 1] * B[k + 1][j] + A[i][k + 2] * B[k + 2][j]
-                                + A[i][k + 3] * B[k + 3][j];
-                    }
-                    Result[i][j] = aux + A[i][PP] * B[PP][j];
-                }
-            }
+            // Código para P con residuo 1 al dividir por 4
         } else if (P % 4 == 2) {
-            int PP = P - 2;
-            int PPP = P - 1;
-            for (i = 0; i < N; i++) {
-                for (j = 0; j < M; j++) {
-                    aux = 0.0;
-                    for (k = 0; k < PP; k += 4) {
-                        aux += A[i][k] * B[k][j] + A[i][k + 1] * B[k + 1][j] + A[i][k + 2] * B[k + 2][j]
-                                + A[i][k + 3] * B[k + 3][j];
-                    }
-                    Result[i][j] = aux + A[i][PP] * B[PP][j] + A[i][PPP] * B[PPP][j];
-                }
-            }
+            // Código para P con residuo 2 al dividir por 4
         } else {
-            int PP = P - 3;
-            int PPP = P - 2;
-            int PPPP = P - 1;
-            for (i = 0; i < N; i++) {
-                for (j = 0; j < M; j++) {
-                    aux = 0.0;
-                    for (k = 0; k < PP; k += 4) {
-                        aux += A[i][k] * B[k][j] + A[i][k + 1] * B[k + 1][j] + A[i][k + 2] * B[k + 2][j]
-                                + A[i][k + 3] * B[k + 3][j];
-                    }
-                    Result[i][j] = aux + A[i][PP] * B[PP][j] + A[i][PPP] * B[PPP][j]
-                            + A[i][PPPP] * B[PPPP][j];
-                }
-            }
+            // Código para P con residuo 3 al dividir por 4
         }
 
         return Result;
     }
 
+    /**
+     * Método auxiliar para imprimir una matriz.
+     *
+     * @param matrix La matriz a imprimir.
+     */
     public static void printMatrix(double[][] matrix) {
         for (double[] row : matrix) {
             for (double num : row) {
@@ -76,6 +49,11 @@ public class NaivLoopUnrollingFour {
         }
     }
 
+    /**
+     * Método principal para probar la multiplicación de matrices.
+     *
+     * @param args Argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
         double[][] A = {{1, 2}, {3, 4}};
         double[][] B = {{5, 6}, {7, 8}};

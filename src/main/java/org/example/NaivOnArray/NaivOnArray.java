@@ -1,6 +1,16 @@
 package org.example.NaivOnArray;
 
+/**
+ * Clase NaivOnArray que contiene métodos para la multiplicación de matrices utilizando el método náive.
+ */
 public class NaivOnArray {
+    /**
+     * Método para multiplicar dos matrices utilizando el método náive.
+     *
+     * @param A La primera matriz para la multiplicación.
+     * @param B La segunda matriz para la multiplicación.
+     * @return La matriz resultante de la multiplicación.
+     */
     public static double[][] multiply(double[][] A, double[][] B) {
         int N = A.length;
         int P = A[0].length;
@@ -19,6 +29,11 @@ public class NaivOnArray {
         return Result;
     }
 
+    /**
+     * Método auxiliar para imprimir una matriz.
+     *
+     * @param matrix La matriz a imprimir.
+     */
     public static void printMatrix(double[][] matrix) {
         for (double[] row : matrix) {
             for (double num : row) {
@@ -28,6 +43,11 @@ public class NaivOnArray {
         }
     }
 
+    /**
+     * Método principal para probar la multiplicación de matrices.
+     *
+     * @param args Argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
         double[][] A = {{1, 2}, {3, 4}};
         double[][] B = {{5, 6}, {7, 8}};

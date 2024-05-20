@@ -23,7 +23,12 @@ import org.example.WinogradOriginal.WinogradOriginal;
 import org.example.WinogradScaled.WinogradScaled;
 import org.example.IV5_EnhancedParallelBlock.IV5_EnhancedParallelBlock;
 
+/**
+ * Clase CalculadoraTiempos que implementa la comparación de tiempos de ejecución de diferentes algoritmos de multiplicación de matrices.
+ */
 public class CalculadoraTiempos {
+
+
         protected static final List<String> categorias = new ArrayList<>();
         protected static final List<Double> tiemposEjecucion = new ArrayList<>();
     public static void calcularTiempos(int i) {

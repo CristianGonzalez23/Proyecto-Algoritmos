@@ -1,7 +1,19 @@
 package org.example.V3_SequentialBlock;
 
+/**
+ * Clase V3_SequentialBlock que implementa la multiplicación de matrices utilizando un enfoque de bloque secuencial.
+ */
 public class V3_SequentialBlock {
 
+    /**
+     * Método para multiplicar dos matrices utilizando un enfoque de bloque secuencial.
+     *
+     * @param A primera matriz
+     * @param B segunda matriz
+     * @param size tamaño de las matrices
+     * @param bsize tamaño del bloque
+     * @return Resultado de la multiplicación de las matrices A y B
+     */
     public static double[][] blockMatrixMultiply(double[][] A, double[][] B, int size, int bsize) {
         // Crear la matriz resultado
         double[][] result = new double[size][size];
@@ -25,16 +37,25 @@ public class V3_SequentialBlock {
         return result;
     }
 
-public static void main(String[] args) {
+    /**
+     * Método principal para probar la multiplicación de matrices utilizando un enfoque de bloque secuencial.
+     *
+     * @param args argumentos de la línea de comandos
+     */
+    public static void main(String[] args) {
         double[][] A = {{1, 2}, {3, 4}};
         double[][] B = {{5, 6}, {7, 8}};
 
         double[][] C = blockMatrixMultiply(A, B, 2,128);
         printMatrix(C);
-        
+
     }
 
-    // Función auxiliar para imprimir una matriz
+    /**
+     * Método para imprimir una matriz.
+     *
+     * @param matrix matriz a imprimir
+     */
     public static void printMatrix(double[][] matrix) {
         for (double[] row : matrix) {
             for (double num : row) {
